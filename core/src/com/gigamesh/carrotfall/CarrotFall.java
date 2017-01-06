@@ -3,6 +3,7 @@ package com.gigamesh.carrotfall;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,6 +12,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,7 +29,7 @@ public class CarrotFall extends Game {
     FitViewport viewport;
 
     /* UI */
-    Stage ui_stage;
+    Stage ui_stage, interactionStage;
     Skin skin;
 
     /* Box2D */
@@ -55,7 +59,28 @@ public class CarrotFall extends Game {
 
         /* initialize ui */
         ui_stage = new Stage(new ScreenViewport(), batch);
-        Gdx.input.setInputProcessor(ui_stage);
+
+        skin = new Skin();
+
+        interactionStage = new Stage(viewport, batch); // ui for interaction. this is actually the ui, maybe */
+
+        Actor interactionArea = new Actor(); // the interaction area will be at the bottom of the screen
+        // may need to set to portrait view
+        interactionArea.setBounds(0, 0, camera.viewportWidth, 110);
+        interactionArea.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        interactionStage.addActor(interactionArea);
+
+        interactionStage.setDebugAll(true);
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(ui_stage);
+        multiplexer.addProcessor(interactionStage);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -68,6 +93,9 @@ public class CarrotFall extends Game {
         batch.begin();
         batch.draw(img, 0, 0);
         batch.end();
+
+        interactionStage.act();
+        interactionStage.draw();
 
         ui_stage.act(); // even though we're not using it right now
         ui_stage.draw();
