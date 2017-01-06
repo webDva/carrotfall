@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class CarrotFall extends Game {
     SpriteBatch batch;
@@ -24,7 +25,7 @@ public class CarrotFall extends Game {
     FitViewport viewport;
 
     /* UI */
-    Stage stage;
+    Stage ui_stage;
     Skin skin;
 
     /* Box2D */
@@ -48,20 +49,42 @@ public class CarrotFall extends Game {
         Box2D.init();
         world = new World(new Vector2(0, -10), true);
         box2DDebugRenderer = new Box2DDebugRenderer(); // so that we can see the physics for now
+
+        /* ashley ecs */
+        ashleyEngine = new Engine(); // a blank engine for now
+
+        /* initialize ui */
+        ui_stage = new Stage(new ScreenViewport(), batch);
+        Gdx.input.setInputProcessor(ui_stage);
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
         batch.draw(img, 0, 0);
         batch.end();
+
+        ui_stage.act(); // even though we're not using it right now
+        ui_stage.draw();
+
+        world.step(1 / 45f, 6, 2);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+        ui_stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         img.dispose();
+        ui_stage.dispose();
     }
 }
