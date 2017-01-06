@@ -94,7 +94,7 @@ public class CarrotFall extends Game {
         batch.draw(img, 0, 0);
         batch.end();
 
-        box2DDebugRenderer.render(world,camera.combined);
+        box2DDebugRenderer.render(world, camera.combined);
 
         interactionStage.act();
         interactionStage.draw();
@@ -109,6 +109,7 @@ public class CarrotFall extends Game {
     public void resize(int width, int height) {
         viewport.update(width, height);
         ui_stage.getViewport().update(width, height, true);
+        interactionStage.getViewport().update(width, height, true);
     }
 
     @Override
