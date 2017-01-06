@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,6 +38,16 @@ public class CarrotFall extends Game {
     public void create() {
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
+
+        /* 800x600 resolution */
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(800, 600, camera);
+        viewport.apply();
+
+        /* initializing Box2D */
+        Box2D.init();
+        world = new World(new Vector2(0, -10), true);
+        box2DDebugRenderer = new Box2DDebugRenderer(); // so that we can see the physics for now
     }
 
     @Override
