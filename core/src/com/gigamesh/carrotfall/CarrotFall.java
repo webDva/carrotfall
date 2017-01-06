@@ -116,5 +116,6 @@ public class CarrotFall extends Game {
         batch.dispose();
         img.dispose();
         ui_stage.dispose();
+        interactionStage.dispose();
     }
 }
