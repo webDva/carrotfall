@@ -21,23 +21,23 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class CarrotFall extends Game {
-    SpriteBatch batch;
-    Texture img;
+    private SpriteBatch batch;
+    private Texture img;
 
     /* view settings */
-    OrthographicCamera camera;
-    FitViewport viewport;
+    private OrthographicCamera camera;
+    private FitViewport viewport;
 
     /* UI */
-    Stage ui_stage, interactionStage;
-    Skin skin;
+    private Stage ui_stage, interactionStage;
+    private Skin skin;
 
     /* Box2D */
-    World world;
-    Box2DDebugRenderer box2DDebugRenderer;
+    private World world;
+    private Box2DDebugRenderer box2DDebugRenderer;
 
     /* Ashley ECS */
-    Engine ashleyEngine;
+    private Engine ashleyEngine;
 
     @Override
     public void create() {
@@ -93,6 +93,8 @@ public class CarrotFall extends Game {
         batch.begin();
         batch.draw(img, 0, 0);
         batch.end();
+
+        box2DDebugRenderer.render(world,camera.combined);
 
         interactionStage.act();
         interactionStage.draw();
