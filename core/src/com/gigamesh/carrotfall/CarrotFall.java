@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,6 +70,25 @@ public class CarrotFall extends Game {
         /* filling the physics body */
         PhysicsComponent physicsComponent = carrotEntity.getComponent(PhysicsComponent.class);
         physicsComponent.bodyDef = new BodyDef();
+        physicsComponent.bodyDef.type= BodyDef.BodyType.DynamicBody;
+        physicsComponent.bodyDef.position.set(300,700);
+
+        physicsComponent.body=world.createBody(physicsComponent.bodyDef);
+
+        PolygonShape boxShape=new PolygonShape();
+        boxShape.setAsBox(70,20);
+
+        physicsComponent.fixtureDef=new FixtureDef();
+        physicsComponent.fixtureDef.shape=boxShape;
+        physicsComponent.fixtureDef.density=0.1f;
+        physicsComponent.fixtureDef.friction=0.1f;
+        physicsComponent.fixtureDef.restitution=0.1f;
+
+        physicsComponent.fixture=physicsComponent.body.createFixture(physicsComponent.fixtureDef);
+
+        boxShape.dispose();
+
+        ashleyEngine.addEntity(carrotEntity);
 
         /* initialize ui */
         ui_stage = new Stage(new ScreenViewport(), batch);
@@ -101,6 +122,8 @@ public class CarrotFall extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
+
+        ashleyEngine.update(Gdx.graphics.getDeltaTime());
 
         batch.begin();
         batch.draw(img, 0, 0);
