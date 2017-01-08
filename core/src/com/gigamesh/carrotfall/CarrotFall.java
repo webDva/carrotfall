@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -67,25 +68,35 @@ public class CarrotFall extends Game {
         /* filling the physics body */
         PhysicsComponent physicsComponent = carrotEntity.getComponent(PhysicsComponent.class);
         physicsComponent.bodyDef = new BodyDef();
-        physicsComponent.bodyDef.type= BodyDef.BodyType.DynamicBody;
-        physicsComponent.bodyDef.position.set(300,700);
+        physicsComponent.bodyDef.type = BodyDef.BodyType.DynamicBody;
+        physicsComponent.bodyDef.position.set(300, 700);
 
-        physicsComponent.body=world.createBody(physicsComponent.bodyDef);
+        physicsComponent.body = world.createBody(physicsComponent.bodyDef);
 
-        PolygonShape boxShape=new PolygonShape();
-        boxShape.setAsBox(70,20);
+        PolygonShape boxShape = new PolygonShape();
+        boxShape.setAsBox(70, 20);
 
-        physicsComponent.fixtureDef=new FixtureDef();
-        physicsComponent.fixtureDef.shape=boxShape;
-        physicsComponent.fixtureDef.density=0.1f;
-        physicsComponent.fixtureDef.friction=0.1f;
-        physicsComponent.fixtureDef.restitution=0.1f;
+        physicsComponent.fixtureDef = new FixtureDef();
+        physicsComponent.fixtureDef.shape = boxShape;
+        physicsComponent.fixtureDef.density = 0.1f;
+        physicsComponent.fixtureDef.friction = 0.1f;
+        physicsComponent.fixtureDef.restitution = 0.1f;
 
-        physicsComponent.fixture=physicsComponent.body.createFixture(physicsComponent.fixtureDef);
+        physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
 
         boxShape.dispose();
 
         ashleyEngine.addEntity(carrotEntity);
+
+        /* create the ground (should do it as an entity later on) */
+        BodyDef groundBodyDef = new BodyDef();
+        groundBodyDef.position.set(0, 0);
+
+        Body groundBody = world.createBody(groundBodyDef);
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(camera.viewportWidth, 20);
+        groundBody.createFixture(groundBox, 0);
+        groundBox.dispose();
 
         /* initialize ui */
         ui_stage = new Stage(new ScreenViewport(), batch);
