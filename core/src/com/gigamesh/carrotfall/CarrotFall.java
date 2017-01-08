@@ -80,7 +80,7 @@ public class CarrotFall extends Game {
         physicsComponent.fixtureDef.shape = boxShape;
         physicsComponent.fixtureDef.density = 0.1f;
         physicsComponent.fixtureDef.friction = 0.1f;
-        physicsComponent.fixtureDef.restitution = 0.1f;
+        physicsComponent.fixtureDef.restitution = 0.2f;
 
         physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
 
@@ -107,7 +107,7 @@ public class CarrotFall extends Game {
 
         Actor interactionArea = new Actor(); // the interaction area will be at the bottom of the screen
         // may need to set to portrait view
-        interactionArea.setBounds(0, 0, camera.viewportWidth, 110);
+        interactionArea.setBounds(0, 0, camera.viewportWidth, 200);
         interactionArea.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
