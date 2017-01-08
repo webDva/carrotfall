@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -28,7 +27,6 @@ import ecs.components.PhysicsComponent;
 
 public class CarrotFall extends Game {
     private SpriteBatch batch;
-    private Texture img;
 
     /* view settings */
     private OrthographicCamera camera;
@@ -49,7 +47,6 @@ public class CarrotFall extends Game {
     @Override
     public void create() {
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
 
         /* 800x600 resolution */
         camera = new OrthographicCamera();
@@ -126,7 +123,6 @@ public class CarrotFall extends Game {
         ashleyEngine.update(Gdx.graphics.getDeltaTime());
 
         batch.begin();
-        batch.draw(img, 0, 0);
         batch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
@@ -150,7 +146,6 @@ public class CarrotFall extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        img.dispose();
         ui_stage.dispose();
         interactionStage.dispose();
     }
