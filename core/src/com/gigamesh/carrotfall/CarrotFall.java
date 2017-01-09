@@ -62,7 +62,7 @@ public class CarrotFall extends Game {
         /* ashley ecs */
         ashleyEngine = new Engine(); // a blank engine for now
         carrotEntity = new Entity();
-        Entity plateEntity=new Entity();
+        Entity plateEntity = new Entity();
 
         carrotEntity.add(new PhysicsComponent());
 
@@ -99,10 +99,15 @@ public class CarrotFall extends Game {
         groundBody.createFixture(groundBox, 0);
         groundBox.dispose();
 
+        /*
+        at this point, since we're writing the same entity creation code twice, i decide
+        to design entity creation to be in a separate scope as a function
+         */
+
         /* creating the player's moving plate to catch the carrots */
         plateEntity.add(new PhysicsComponent());
 
-        physicsComponent=plateEntity.getComponent(PhysicsComponent.class);
+        physicsComponent = plateEntity.getComponent(PhysicsComponent.class);
         physicsComponent.bodyDef = new BodyDef();
         physicsComponent.bodyDef.type = BodyDef.BodyType.KinematicBody;
         physicsComponent.bodyDef.position.set(233, 70);
