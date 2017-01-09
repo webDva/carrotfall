@@ -79,9 +79,9 @@ public class CarrotFall extends Game {
 
         physicsComponent.fixtureDef = new FixtureDef();
         physicsComponent.fixtureDef.shape = boxShape;
-        physicsComponent.fixtureDef.density = 0.1f;
-        physicsComponent.fixtureDef.friction = 0.1f;
-        physicsComponent.fixtureDef.restitution = 0.2f;
+        physicsComponent.fixtureDef.density = 0.05f;
+        physicsComponent.fixtureDef.friction = 0.05f;
+        physicsComponent.fixtureDef.restitution = 0.29f;
 
         physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
 
