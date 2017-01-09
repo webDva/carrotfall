@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
+import ecs.components.PositionComponent;
 
 public class CarrotFall extends Game {
     private SpriteBatch batch;
@@ -105,6 +106,7 @@ public class CarrotFall extends Game {
          */
 
         /* creating the player's moving plate to catch the carrots */
+        plateEntity.add(new PositionComponent(70, 10));
         plateEntity.add(new PhysicsComponent());
 
         Mappers.physicsComponentMapper.get(plateEntity).bodyDef = new BodyDef();
@@ -114,7 +116,7 @@ public class CarrotFall extends Game {
         Mappers.physicsComponentMapper.get(plateEntity).body = world.createBody(Mappers.physicsComponentMapper.get(plateEntity).bodyDef);
 
         boxShape = new PolygonShape();
-        boxShape.setAsBox(70, 10);
+        boxShape.setAsBox(Mappers.positionComponentMapper.get(plateEntity).x, Mappers.positionComponentMapper.get(plateEntity).y);
 
         Mappers.physicsComponentMapper.get(plateEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.shape = boxShape;
