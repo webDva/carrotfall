@@ -62,6 +62,7 @@ public class CarrotFall extends Game {
         /* ashley ecs */
         ashleyEngine = new Engine(); // a blank engine for now
         carrotEntity = new Entity();
+        Entity plateEntity=new Entity();
 
         carrotEntity.add(new PhysicsComponent());
 
@@ -97,6 +98,32 @@ public class CarrotFall extends Game {
         groundBox.setAsBox(camera.viewportWidth, 20);
         groundBody.createFixture(groundBox, 0);
         groundBox.dispose();
+
+        /* creating the player's moving plate to catch the carrots */
+        plateEntity.add(new PhysicsComponent());
+
+        physicsComponent=plateEntity.getComponent(PhysicsComponent.class);
+        physicsComponent.bodyDef = new BodyDef();
+        physicsComponent.bodyDef.type = BodyDef.BodyType.KinematicBody;
+        physicsComponent.bodyDef.position.set(233, 70);
+
+        physicsComponent.body = world.createBody(physicsComponent.bodyDef);
+
+        boxShape = new PolygonShape();
+        boxShape.setAsBox(70, 10);
+
+        physicsComponent.fixtureDef = new FixtureDef();
+        physicsComponent.fixtureDef.shape = boxShape;
+        physicsComponent.fixtureDef.density = 0.1f;
+        physicsComponent.fixtureDef.friction = 0.1f;
+        physicsComponent.fixtureDef.restitution = 0.2f;
+
+        physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
+
+        boxShape.dispose();
+
+        ashleyEngine.addEntity(plateEntity);
+
 
         /* initialize ui */
         ui_stage = new Stage(new ScreenViewport(), batch);
