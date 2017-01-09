@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import ecs.Mappers;
 import ecs.components.PhysicsComponent;
 
 public class CarrotFall extends Game {
@@ -67,23 +68,22 @@ public class CarrotFall extends Game {
         carrotEntity.add(new PhysicsComponent());
 
         /* filling the physics body */
-        PhysicsComponent physicsComponent = carrotEntity.getComponent(PhysicsComponent.class);
-        physicsComponent.bodyDef = new BodyDef();
-        physicsComponent.bodyDef.type = BodyDef.BodyType.DynamicBody;
-        physicsComponent.bodyDef.position.set(300, 700);
+        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef = new BodyDef();
+        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef.type = BodyDef.BodyType.DynamicBody;
+        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef.position.set(300, 700);
 
-        physicsComponent.body = world.createBody(physicsComponent.bodyDef);
+        Mappers.physicsComponentMapper.get(carrotEntity).body = world.createBody(Mappers.physicsComponentMapper.get(carrotEntity).bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(70, 20);
 
-        physicsComponent.fixtureDef = new FixtureDef();
-        physicsComponent.fixtureDef.shape = boxShape;
-        physicsComponent.fixtureDef.density = 0.05f;
-        physicsComponent.fixtureDef.friction = 0.05f;
-        physicsComponent.fixtureDef.restitution = 0.29f;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef = new FixtureDef();
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.shape = boxShape;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.density = 0.05f;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.friction = 0.05f;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.restitution = 0.29f;
 
-        physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
+        Mappers.physicsComponentMapper.get(carrotEntity).fixture = Mappers.physicsComponentMapper.get(carrotEntity).body.createFixture(Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef);
 
         boxShape.dispose();
 
@@ -107,23 +107,22 @@ public class CarrotFall extends Game {
         /* creating the player's moving plate to catch the carrots */
         plateEntity.add(new PhysicsComponent());
 
-        physicsComponent = plateEntity.getComponent(PhysicsComponent.class);
-        physicsComponent.bodyDef = new BodyDef();
-        physicsComponent.bodyDef.type = BodyDef.BodyType.KinematicBody;
-        physicsComponent.bodyDef.position.set(233, 70);
+        Mappers.physicsComponentMapper.get(plateEntity).bodyDef = new BodyDef();
+        Mappers.physicsComponentMapper.get(plateEntity).bodyDef.type = BodyDef.BodyType.KinematicBody;
+        Mappers.physicsComponentMapper.get(plateEntity).bodyDef.position.set(233, 70);
 
-        physicsComponent.body = world.createBody(physicsComponent.bodyDef);
+        Mappers.physicsComponentMapper.get(plateEntity).body = world.createBody(Mappers.physicsComponentMapper.get(plateEntity).bodyDef);
 
         boxShape = new PolygonShape();
         boxShape.setAsBox(70, 10);
 
-        physicsComponent.fixtureDef = new FixtureDef();
-        physicsComponent.fixtureDef.shape = boxShape;
-        physicsComponent.fixtureDef.density = 0.1f;
-        physicsComponent.fixtureDef.friction = 0.1f;
-        physicsComponent.fixtureDef.restitution = 0.2f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef = new FixtureDef();
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.shape = boxShape;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.density = 0.1f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.friction = 0.1f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.restitution = 0.2f;
 
-        physicsComponent.fixture = physicsComponent.body.createFixture(physicsComponent.fixtureDef);
+        Mappers.physicsComponentMapper.get(plateEntity).fixture = Mappers.physicsComponentMapper.get(plateEntity).body.createFixture(Mappers.physicsComponentMapper.get(plateEntity).fixtureDef);
 
         boxShape.dispose();
 
