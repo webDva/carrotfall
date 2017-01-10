@@ -64,7 +64,7 @@ public class CarrotFall extends Game {
         /* ashley ecs */
         ashleyEngine = new Engine(); // a blank engine for now
         carrotEntity = new Entity();
-        Entity plateEntity = new Entity();
+        final Entity plateEntity = new Entity();
 
         carrotEntity.add(new PhysicsComponent());
 
@@ -141,9 +141,17 @@ public class CarrotFall extends Game {
         Actor interactionArea = new Actor(); // the interaction area will be at the bottom of the screen
         // may need to set to portrait view
         interactionArea.setBounds(0, 0, camera.viewportWidth, 200);
+        /*
+        movement will be controlled here instead of in a separate scope such as an entity system
+         */
         interactionArea.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (!(Mappers.physicsComponentMapper.get(plateEntity).body.getPosition().x >= x)) {
+                    Mappers.physicsComponentMapper.get(plateEntity).body.setLinearVelocity(400, 0);
+                } else if (!(Mappers.physicsComponentMapper.get(plateEntity).body.getPosition().x <= x)) {
+                    Mappers.physicsComponentMapper.get(plateEntity).body.setLinearVelocity(-400, 0);
+                }
                 return true;
             }
         });
