@@ -8,6 +8,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import ecs.CarrotFactory;
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
 import ecs.components.PositionComponent;
@@ -45,7 +47,6 @@ public class CarrotFall extends Game {
 
     /* Ashley ECS */
     private Engine ashleyEngine;
-    private Entity carrotEntity;
 
     @Override
     public void create() {
@@ -63,32 +64,13 @@ public class CarrotFall extends Game {
 
         /* ashley ecs */
         ashleyEngine = new Engine(); // a blank engine for now
-        carrotEntity = new Entity();
+
+        /* using the new carrot factory */
+        for (int i = 0; i < 10; i++) {
+            new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
+        }
+
         final Entity plateEntity = new Entity();
-
-        carrotEntity.add(new PhysicsComponent());
-
-        /* filling the physics body */
-        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef = new BodyDef();
-        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Mappers.physicsComponentMapper.get(carrotEntity).bodyDef.position.set(300, 700);
-
-        Mappers.physicsComponentMapper.get(carrotEntity).body = world.createBody(Mappers.physicsComponentMapper.get(carrotEntity).bodyDef);
-
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(70, 20);
-
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef = new FixtureDef();
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.shape = boxShape;
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.density = 0.05f;
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.friction = 0.05f;
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.restitution = 0.29f;
-
-        Mappers.physicsComponentMapper.get(carrotEntity).fixture = Mappers.physicsComponentMapper.get(carrotEntity).body.createFixture(Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef);
-
-        boxShape.dispose();
-
-        ashleyEngine.addEntity(carrotEntity);
 
         /* create the ground (should do it as an entity later on) */
         BodyDef groundBodyDef = new BodyDef();
@@ -115,7 +97,7 @@ public class CarrotFall extends Game {
 
         Mappers.physicsComponentMapper.get(plateEntity).body = world.createBody(Mappers.physicsComponentMapper.get(plateEntity).bodyDef);
 
-        boxShape = new PolygonShape();
+        PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(Mappers.positionComponentMapper.get(plateEntity).x, Mappers.positionComponentMapper.get(plateEntity).y);
 
         Mappers.physicsComponentMapper.get(plateEntity).fixtureDef = new FixtureDef();
