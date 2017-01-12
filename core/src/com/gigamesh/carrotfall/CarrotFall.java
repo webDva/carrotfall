@@ -31,6 +31,7 @@ import ecs.components.PhysicsComponent;
 import ecs.components.PlateContainerComponent;
 import ecs.components.PositionComponent;
 import ecs.systems.StopPlateMovementSystem;
+import ecs.systems.DrawSpritesSystem;
 
 public class CarrotFall extends Game {
     private SpriteBatch batch;
@@ -70,6 +71,10 @@ public class CarrotFall extends Game {
         /* adding the new StopPlateMovementSystem */
         StopPlateMovementSystem stopPlateMovementSystem = new StopPlateMovementSystem(camera.viewportWidth);
         ashleyEngine.addSystem(stopPlateMovementSystem);
+
+        /* and adding the new UpdateSpritePositionSystem */
+        DrawSpritesSystem drawSpritesSystem = new DrawSpritesSystem(batch);
+        ashleyEngine.addSystem(drawSpritesSystem);
 
         /* using the new carrot factory */
         for (int i = 0; i < 100; i++) {
@@ -179,9 +184,8 @@ public class CarrotFall extends Game {
 
         batch.setProjectionMatrix(camera.combined);
 
-        ashleyEngine.update(Gdx.graphics.getDeltaTime());
-
         batch.begin();
+        ashleyEngine.update(Gdx.graphics.getDeltaTime());
         batch.end();
 
         box2DDebugRenderer.render(world, camera.combined);
