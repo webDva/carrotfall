@@ -33,7 +33,7 @@ public class CarrotFactory {
         Mappers.physicsComponentMapper.get(carrotEntity).body = box2DWorld.createBody(Mappers.physicsComponentMapper.get(carrotEntity).bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(Mappers.textureComponentMapper.get(carrotEntity).texture.getWidth() / 2, Mappers.textureComponentMapper.get(carrotEntity).texture.getHeight() / 2);
+        boxShape.setAsBox(Mappers.textureComponentMapper.get(carrotEntity).texture.getWidth() / 3.75f, Mappers.textureComponentMapper.get(carrotEntity).texture.getHeight() / 3.75f);
 
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.shape = boxShape;
