@@ -29,6 +29,7 @@ import ecs.CarrotFactory;
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
 import ecs.components.PositionComponent;
+import ecs.systems.StopPlateMovementSystem;
 
 public class CarrotFall extends Game {
     private SpriteBatch batch;
@@ -63,7 +64,11 @@ public class CarrotFall extends Game {
         box2DDebugRenderer = new Box2DDebugRenderer(); // so that we can see the physics for now
 
         /* ashley ecs */
-        ashleyEngine = new Engine(); // a blank engine for now
+        ashleyEngine = new Engine();
+
+        /* adding the new StopPlateMovementSystem */
+        StopPlateMovementSystem stopPlateMovementSystem = new StopPlateMovementSystem(camera.viewportWidth);
+        ashleyEngine.addSystem(stopPlateMovementSystem);
 
         /* using the new carrot factory */
         for (int i = 0; i < 100; i++) {
