@@ -185,7 +185,7 @@ public class CarrotFall extends Game {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        ashleyEngine.update(Gdx.graphics.getDeltaTime());
+        ashleyEngine.update(Gdx.graphics.getDeltaTime()); // this might be bad, but it works for now
         batch.end();
 
         box2DDebugRenderer.render(world, camera.combined);

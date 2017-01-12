@@ -19,7 +19,7 @@ public class DrawSpritesSystem extends IteratingSystem {
 
     public DrawSpritesSystem(SpriteBatch batch) {
         super(Family.all(PhysicsComponent.class, TextureComponent.class, PositionComponent.class).get());
-        this.batch = batch;
+        this.batch = batch; // don't really wanna do this
     }
 
     public void processEntity(Entity entity, float deltaTime) {
@@ -30,6 +30,8 @@ public class DrawSpritesSystem extends IteratingSystem {
             spriteObject.getComponent(PositionComponent.class).y = spriteObject.getComponent(PhysicsComponent.class).body.getPosition().y;
         }
 
-        batch.draw(spriteObject.getComponent(TextureComponent.class).texture, spriteObject.getComponent(PositionComponent.class).x, spriteObject.getComponent(PositionComponent.class).y);
+        batch.draw(spriteObject.getComponent(TextureComponent.class).texture,
+                spriteObject.getComponent(PositionComponent.class).x - spriteObject.getComponent(TextureComponent.class).texture.getWidth() / 2,
+                spriteObject.getComponent(PositionComponent.class).y - spriteObject.getComponent(TextureComponent.class).texture.getHeight() / 2);
     }
 }
