@@ -66,7 +66,7 @@ public class CarrotFall extends Game {
         ashleyEngine = new Engine(); // a blank engine for now
 
         /* using the new carrot factory */
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
         }
 
@@ -81,6 +81,24 @@ public class CarrotFall extends Game {
         groundBox.setAsBox(camera.viewportWidth, 20);
         groundBody.createFixture(groundBox, 0);
         groundBox.dispose();
+
+        /* creating the walls too now */
+        BodyDef wallBodyDef = new BodyDef();
+
+        PolygonShape wallBoxShape = new PolygonShape();
+        wallBoxShape.setAsBox(1, camera.viewportHeight); // one pixel-wide walls
+
+        /* creating wall one */
+        wallBodyDef.position.set(0, 0);
+        Body wallBody1 = world.createBody(wallBodyDef);
+        wallBody1.createFixture(wallBoxShape, 0);
+
+        /* and creating wall 2 */
+        wallBodyDef.position.set(camera.viewportWidth, 0);
+        Body wallBody2 = world.createBody(wallBodyDef);
+        wallBody2.createFixture(wallBoxShape, 0);
+
+        wallBoxShape.dispose();
 
         /*
         at this point, since we're writing the same entity creation code twice, i decide
