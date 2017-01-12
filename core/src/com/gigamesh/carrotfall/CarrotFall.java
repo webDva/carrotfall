@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ecs.CarrotFactory;
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
+import ecs.components.PlateContainerComponent;
 import ecs.components.PositionComponent;
 import ecs.systems.StopPlateMovementSystem;
 
@@ -113,6 +114,7 @@ public class CarrotFall extends Game {
         /* creating the player's moving plate to catch the carrots */
         plateEntity.add(new PositionComponent(70, 10));
         plateEntity.add(new PhysicsComponent());
+        plateEntity.add(new PlateContainerComponent());
 
         Mappers.physicsComponentMapper.get(plateEntity).bodyDef = new BodyDef();
         Mappers.physicsComponentMapper.get(plateEntity).bodyDef.type = BodyDef.BodyType.KinematicBody;

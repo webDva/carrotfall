@@ -1,13 +1,12 @@
 package ecs.systems;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
+import ecs.components.PlateContainerComponent;
 import ecs.components.PositionComponent;
 
 /**
@@ -18,7 +17,7 @@ public class StopPlateMovementSystem extends IteratingSystem {
     private float camerasViewportWidth;
 
     public StopPlateMovementSystem(float camerasViewportWidth) {
-        super(Family.all(PositionComponent.class, PhysicsComponent.class).get());
+        super(Family.all(PositionComponent.class, PhysicsComponent.class, PlateContainerComponent.class).get());
 
         this.camerasViewportWidth = camerasViewportWidth;
     }
