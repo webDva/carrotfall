@@ -9,6 +9,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import ecs.components.PhysicsComponent;
+import ecs.components.PositionComponent;
+import ecs.components.TextureComponent;
 
 /**
  * Created by jeast on 1/11/2017.
@@ -17,6 +19,10 @@ import ecs.components.PhysicsComponent;
 public class CarrotFactory {
     public CarrotFactory(Engine ashleyEngine, World box2DWorld, Vector2 carrotPosition) {
         Entity carrotEntity = new Entity();
+
+        // add texture component first so that the physics body can have the same size
+        carrotEntity.add(new TextureComponent("carrot.png"));
+        carrotEntity.add(new PositionComponent(carrotPosition.x, carrotPosition.y));
 
         carrotEntity.add(new PhysicsComponent());
 
@@ -27,7 +33,7 @@ public class CarrotFactory {
         Mappers.physicsComponentMapper.get(carrotEntity).body = box2DWorld.createBody(Mappers.physicsComponentMapper.get(carrotEntity).bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(70, 20);
+        boxShape.setAsBox(Mappers.textureComponentMapper.get(carrotEntity).texture.getWidth() * 2, Mappers.textureComponentMapper.get(carrotEntity).texture.getHeight() * 2);
 
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.shape = boxShape;
