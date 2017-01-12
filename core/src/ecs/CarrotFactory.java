@@ -39,6 +39,9 @@ public class CarrotFactory {
 
         boxShape.dispose();
 
+        // don't know if this will actually work. may have to create a carrot object
+        Mappers.physicsComponentMapper.get(carrotEntity).body.setUserData(carrotEntity);
+
         ashleyEngine.addEntity(carrotEntity);
     }
 }
