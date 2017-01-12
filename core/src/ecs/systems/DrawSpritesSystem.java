@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
@@ -30,8 +31,20 @@ public class DrawSpritesSystem extends IteratingSystem {
             spriteObject.getComponent(PositionComponent.class).y = spriteObject.getComponent(PhysicsComponent.class).body.getPosition().y;
         }
 
+        // wow, this is the longest thing ever
         batch.draw(spriteObject.getComponent(TextureComponent.class).texture,
                 spriteObject.getComponent(PositionComponent.class).x - spriteObject.getComponent(TextureComponent.class).texture.getWidth() / 2,
-                spriteObject.getComponent(PositionComponent.class).y - spriteObject.getComponent(TextureComponent.class).texture.getHeight() / 2);
+                spriteObject.getComponent(PositionComponent.class).y - spriteObject.getComponent(TextureComponent.class).texture.getHeight() / 2,
+                spriteObject.getComponent(TextureComponent.class).texture.getWidth() / 2,
+                spriteObject.getComponent(TextureComponent.class).texture.getHeight() / 2,
+                spriteObject.getComponent(TextureComponent.class).texture.getWidth(),
+                spriteObject.getComponent(TextureComponent.class).texture.getHeight(),
+                1, 1,
+                spriteObject.getComponent(PhysicsComponent.class).body.getAngle() * MathUtils.radiansToDegrees,
+                0, 0,
+                spriteObject.getComponent(TextureComponent.class).texture.getWidth(),
+                spriteObject.getComponent(TextureComponent.class).texture.getHeight(),
+                false, false
+        );
     }
 }
