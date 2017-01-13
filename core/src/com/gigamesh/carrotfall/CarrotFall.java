@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -77,9 +78,9 @@ public class CarrotFall extends Game {
         ashleyEngine.addSystem(drawSpritesSystem);
 
         /* using the new carrot factory */
-        for (int i = 0; i < 100; i++) {
-            new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
-        }
+//        for (int i = 0; i < 100; i++) {
+//            new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
+//        }
 
         final Entity plateEntity = new Entity();
 
@@ -175,6 +176,16 @@ public class CarrotFall extends Game {
         multiplexer.addProcessor(ui_stage);
         multiplexer.addProcessor(interactionStage);
         Gdx.input.setInputProcessor(multiplexer);
+
+        /*
+        Timer scheduler for dropping carrots
+         */
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
+            }
+        }, 0, 0.1f);
     }
 
     @Override
