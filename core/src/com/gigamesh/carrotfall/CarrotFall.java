@@ -133,9 +133,9 @@ public class CarrotFall extends Game {
 
         Mappers.physicsComponentMapper.get(plateEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.shape = boxShape;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.density = 0.1f;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.friction = 0.1f;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.restitution = 0.2f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.density = 20f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.friction = 0f;
+        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.restitution = 0f;
 
         Mappers.physicsComponentMapper.get(plateEntity).fixture = Mappers.physicsComponentMapper.get(plateEntity).body.createFixture(Mappers.physicsComponentMapper.get(plateEntity).fixtureDef);
 

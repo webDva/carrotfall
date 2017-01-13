@@ -38,8 +38,8 @@ public class CarrotFactory {
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.shape = boxShape;
         Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.density = 7;
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.friction = 0.1f;
-        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.restitution = 0.29f;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.friction = 0.3f;
+        Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef.restitution = 0f;
 
         Mappers.physicsComponentMapper.get(carrotEntity).fixture = Mappers.physicsComponentMapper.get(carrotEntity).body.createFixture(Mappers.physicsComponentMapper.get(carrotEntity).fixtureDef);
 
