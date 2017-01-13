@@ -185,7 +185,7 @@ public class CarrotFall extends Game {
             public void run() {
                 new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
             }
-        }, 0, 0.1f);
+        }, 0, 3f);
     }
 
     @Override
