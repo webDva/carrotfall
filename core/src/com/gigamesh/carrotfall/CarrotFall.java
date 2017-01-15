@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -29,9 +30,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import ecs.CarrotFactory;
 import ecs.Mappers;
 import ecs.components.PhysicsComponent;
-import ecs.components.PlateContainerComponent;
+import ecs.components.BucketContainerComponent;
 import ecs.components.PositionComponent;
-import ecs.systems.StopPlateMovementSystem;
+import ecs.systems.StopBucketMovementSystem;
 import ecs.systems.DrawSpritesSystem;
 
 public class CarrotFall extends Game {
@@ -69,9 +70,9 @@ public class CarrotFall extends Game {
         /* ashley ecs */
         ashleyEngine = new Engine();
 
-        /* adding the new StopPlateMovementSystem */
-        StopPlateMovementSystem stopPlateMovementSystem = new StopPlateMovementSystem(camera.viewportWidth);
-        ashleyEngine.addSystem(stopPlateMovementSystem);
+        /* adding the new StopBucketMovementSystem */
+        StopBucketMovementSystem stopBucketMovementSystem = new StopBucketMovementSystem(camera.viewportWidth);
+        ashleyEngine.addSystem(stopBucketMovementSystem);
 
         /* and adding the new UpdateSpritePositionSystem */
         DrawSpritesSystem drawSpritesSystem = new DrawSpritesSystem(batch);
@@ -82,7 +83,7 @@ public class CarrotFall extends Game {
 //            new CarrotFactory(ashleyEngine, world, new Vector2(MathUtils.random(camera.viewportWidth), 550));
 //        }
 
-        final Entity plateEntity = new Entity();
+        final Entity bucketEntity = new Entity();
 
         /* create the ground (should do it as an entity later on) */
         BodyDef groundBodyDef = new BodyDef();
@@ -117,31 +118,32 @@ public class CarrotFall extends Game {
         to design entity creation to be in a separate scope as a function
          */
 
-        /* creating the player's moving plate to catch the carrots */
-        plateEntity.add(new PositionComponent(70, 10));
-        plateEntity.add(new PhysicsComponent());
-        plateEntity.add(new PlateContainerComponent());
+        /* creating the player's moving bucket to catch the carrots */
+        bucketEntity.add(new PositionComponent(70, 10));
+        bucketEntity.add(new PhysicsComponent());
 
-        Mappers.physicsComponentMapper.get(plateEntity).bodyDef = new BodyDef();
-        Mappers.physicsComponentMapper.get(plateEntity).bodyDef.type = BodyDef.BodyType.KinematicBody;
-        Mappers.physicsComponentMapper.get(plateEntity).bodyDef.position.set(233, 70);
+        Mappers.physicsComponentMapper.get(bucketEntity).bodyDef = new BodyDef();
+        Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.type = BodyDef.BodyType.KinematicBody;
+        Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.set(233, 70);
 
-        Mappers.physicsComponentMapper.get(plateEntity).body = world.createBody(Mappers.physicsComponentMapper.get(plateEntity).bodyDef);
+        Mappers.physicsComponentMapper.get(bucketEntity).body = world.createBody(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(Mappers.positionComponentMapper.get(plateEntity).x, Mappers.positionComponentMapper.get(plateEntity).y);
+        boxShape.setAsBox(90, 1);
 
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef = new FixtureDef();
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.shape = boxShape;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.density = 20f;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.friction = 0f;
-        Mappers.physicsComponentMapper.get(plateEntity).fixtureDef.restitution = 0f;
+        Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef = new FixtureDef();
+        Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef.shape = boxShape;
+        Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef.density = 20f; // might not really matter since it's a kinematic body
+        Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef.friction = 0.5f;
+        Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef.restitution = 0f;
 
-        Mappers.physicsComponentMapper.get(plateEntity).fixture = Mappers.physicsComponentMapper.get(plateEntity).body.createFixture(Mappers.physicsComponentMapper.get(plateEntity).fixtureDef);
+        Mappers.physicsComponentMapper.get(bucketEntity).fixture = Mappers.physicsComponentMapper.get(bucketEntity).body.createFixture(Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef);
 
         boxShape.dispose();
 
-        ashleyEngine.addEntity(plateEntity);
+        bucketEntity.add(new BucketContainerComponent(bucketEntity, world));
+
+        ashleyEngine.addEntity(bucketEntity);
 
 
         /* initialize ui */
@@ -160,10 +162,10 @@ public class CarrotFall extends Game {
         interactionArea.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!(Mappers.physicsComponentMapper.get(plateEntity).body.getPosition().x >= x)) {
-                    Mappers.physicsComponentMapper.get(plateEntity).body.setLinearVelocity(400, 0);
-                } else if (!(Mappers.physicsComponentMapper.get(plateEntity).body.getPosition().x <= x)) {
-                    Mappers.physicsComponentMapper.get(plateEntity).body.setLinearVelocity(-400, 0);
+                if (!(Mappers.physicsComponentMapper.get(bucketEntity).body.getPosition().x >= x)) {
+                    Mappers.physicsComponentMapper.get(bucketEntity).body.setLinearVelocity(400, 0);
+                } else if (!(Mappers.physicsComponentMapper.get(bucketEntity).body.getPosition().x <= x)) {
+                    Mappers.physicsComponentMapper.get(bucketEntity).body.setLinearVelocity(-400, 0);
                 }
                 return true;
             }
