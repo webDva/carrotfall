@@ -31,6 +31,7 @@ import ecs.Mappers;
 import ecs.components.BucketContainerComponent;
 import ecs.components.PhysicsComponent;
 import ecs.components.PositionComponent;
+import ecs.components.TextureComponent;
 import ecs.systems.DrawSpritesSystem;
 import ecs.systems.StopBucketMovementSystem;
 
@@ -120,12 +121,13 @@ public class CarrotFall extends Game {
          */
 
         /* creating the player's moving bucket to catch the carrots */
-        bucketEntity.add(new PositionComponent(70, 10));
+        bucketEntity.add(new PositionComponent(70, 10)); // don't know which position is used
         bucketEntity.add(new PhysicsComponent());
+        bucketEntity.add(new TextureComponent("bucket.png"));
 
         Mappers.physicsComponentMapper.get(bucketEntity).bodyDef = new BodyDef();
         Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.type = BodyDef.BodyType.KinematicBody;
-        Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.set(233, 70);
+        Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.set(233, 70); // don't know which position is used
 
         Mappers.physicsComponentMapper.get(bucketEntity).body = world.createBody(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef);
 
@@ -143,6 +145,9 @@ public class CarrotFall extends Game {
         boxShape.dispose();
 
         bucketEntity.add(new BucketContainerComponent(bucketEntity, world));
+
+        // need this for rendering
+        Mappers.physicsComponentMapper.get(bucketEntity).body.setUserData(bucketEntity);
 
         ashleyEngine.addEntity(bucketEntity);
 
