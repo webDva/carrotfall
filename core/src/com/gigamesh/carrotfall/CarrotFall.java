@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -55,9 +56,14 @@ public class CarrotFall extends Game {
 
     public static final int BUCKET_WIDTH = 58, BUCKET_HEIGHT = 68;
 
+    /* ground texture */
+    private Texture groundTexture;
+
     @Override
     public void create() {
         batch = new SpriteBatch();
+
+        groundTexture = new Texture(Gdx.files.internal("ground.png"));
 
         /* 800x600 resolution */
         camera = new OrthographicCamera();
@@ -204,6 +210,7 @@ public class CarrotFall extends Game {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
+        batch.draw(groundTexture, 0, 0);
         ashleyEngine.update(Gdx.graphics.getDeltaTime()); // this might be bad, but it works for now
         batch.end();
 
