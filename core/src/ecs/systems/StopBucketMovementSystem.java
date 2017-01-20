@@ -5,9 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 import ecs.Mappers;
-import ecs.components.PhysicsComponent;
 import ecs.components.BucketContainerComponent;
-import ecs.components.PositionComponent;
 
 /**
  * Created by jeast on 1/9/2017.
@@ -17,7 +15,7 @@ public class StopBucketMovementSystem extends IteratingSystem {
     private float camerasViewportWidth;
 
     public StopBucketMovementSystem(float camerasViewportWidth) {
-        super(Family.all(PositionComponent.class, PhysicsComponent.class, BucketContainerComponent.class).get());
+        super(Family.all(BucketContainerComponent.class).get());
 
         this.camerasViewportWidth = camerasViewportWidth;
     }
