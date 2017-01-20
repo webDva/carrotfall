@@ -52,7 +52,7 @@ public class CarrotFall extends Game {
     /* Ashley ECS */
     private Engine ashleyEngine;
 
-    public static final int BUCKET_WIDTH = 50, BUCKET_HEIGHT = 70;
+    public static final int BUCKET_WIDTH = 58, BUCKET_HEIGHT = 68;
 
     @Override
     public void create() {
