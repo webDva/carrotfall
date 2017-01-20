@@ -214,7 +214,7 @@ public class CarrotFall extends Game {
         ashleyEngine.update(Gdx.graphics.getDeltaTime()); // this might be bad, but it works for now
         batch.end();
 
-        box2DDebugRenderer.render(world, camera.combined);
+        //box2DDebugRenderer.render(world, camera.combined);
 
         interactionStage.act();
         interactionStage.draw();
