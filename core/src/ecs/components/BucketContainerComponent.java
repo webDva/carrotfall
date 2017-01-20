@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.gigamesh.carrotfall.CarrotFall;
 
 import ecs.Mappers;
 
@@ -31,14 +32,14 @@ public class BucketContainerComponent implements Component {
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
-        bodyDef.position.set(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.x - 90, Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.y + 45);
+        bodyDef.position.set(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.x - CarrotFall.BUCKET_WIDTH, Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.y + CarrotFall.BUCKET_HEIGHT);
         body_1 = world.createBody(bodyDef);
 
-        bodyDef.position.set(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.x + 90, Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.y + 45);
+        bodyDef.position.set(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.x + CarrotFall.BUCKET_WIDTH, Mappers.physicsComponentMapper.get(bucketEntity).bodyDef.position.y + CarrotFall.BUCKET_HEIGHT);
         body_2 = world.createBody(bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(1, 45);
+        boxShape.setAsBox(1, CarrotFall.BUCKET_HEIGHT);
 
         fixtureDef = new FixtureDef();
         fixtureDef.shape = boxShape;
@@ -51,11 +52,12 @@ public class BucketContainerComponent implements Component {
 
         boxShape.dispose();
 
+        // bucket walls welded to the end of the bucket bottom
         WeldJointDef jointDef_1 = new WeldJointDef();
-        jointDef_1.initialize(body_1, Mappers.physicsComponentMapper.get(bucketEntity).body, new Vector2(body_1.getPosition().x, body_1.getPosition().y - 45));
+        jointDef_1.initialize(body_1, Mappers.physicsComponentMapper.get(bucketEntity).body, new Vector2(body_1.getPosition().x, body_1.getPosition().y - CarrotFall.BUCKET_HEIGHT));
 
         WeldJointDef jointDef_2 = new WeldJointDef();
-        jointDef_2.initialize(body_2, Mappers.physicsComponentMapper.get(bucketEntity).body, new Vector2(body_2.getPosition().x, body_2.getPosition().y - 45));
+        jointDef_2.initialize(body_2, Mappers.physicsComponentMapper.get(bucketEntity).body, new Vector2(body_2.getPosition().x, body_2.getPosition().y - CarrotFall.BUCKET_HEIGHT));
 
         world.createJoint(jointDef_1);
         world.createJoint(jointDef_2);

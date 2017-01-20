@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -29,11 +28,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import ecs.CarrotFactory;
 import ecs.Mappers;
-import ecs.components.PhysicsComponent;
 import ecs.components.BucketContainerComponent;
+import ecs.components.PhysicsComponent;
 import ecs.components.PositionComponent;
-import ecs.systems.StopBucketMovementSystem;
 import ecs.systems.DrawSpritesSystem;
+import ecs.systems.StopBucketMovementSystem;
 
 public class CarrotFall extends Game {
     private SpriteBatch batch;
@@ -52,6 +51,8 @@ public class CarrotFall extends Game {
 
     /* Ashley ECS */
     private Engine ashleyEngine;
+
+    public static final int BUCKET_WIDTH = 50, BUCKET_HEIGHT = 70;
 
     @Override
     public void create() {
@@ -129,7 +130,7 @@ public class CarrotFall extends Game {
         Mappers.physicsComponentMapper.get(bucketEntity).body = world.createBody(Mappers.physicsComponentMapper.get(bucketEntity).bodyDef);
 
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(90, 1);
+        boxShape.setAsBox(BUCKET_WIDTH, 1);
 
         Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef = new FixtureDef();
         Mappers.physicsComponentMapper.get(bucketEntity).fixtureDef.shape = boxShape;
